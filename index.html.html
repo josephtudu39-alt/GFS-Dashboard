@@ -1,0 +1,268 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>GFS Dashboard</title><meta name="theme-color" content="#1d3a6e">
+<style>
+:root{--bg:#f1f4f9;--cd:#fff;--tx:#18222f;--mu:#667386;--bd:#dde3ec;--ac:#2a63c4;--ac2:#14a3b8;--ok:#14804a;--wr:#c27800;--er:#c0372f;--hd:#1d3a6e}
+@media(prefers-color-scheme:dark){:root{--bg:#0e131a;--cd:#19212b;--tx:#e8edf4;--mu:#93a1b3;--bd:#2a3441;--ac:#6ea4f4;--ac2:#3cc4d8;--ok:#4cc38a;--wr:#f0b04a;--er:#f2837b;--hd:#162a4d}}
+*{box-sizing:border-box}html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.35 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding-bottom:74px;-webkit-text-size-adjust:100%}
+header{background:linear-gradient(135deg,var(--hd),#1b7a96);color:#fff;padding:10px 14px;display:flex;align-items:center;gap:10px}
+header h1{margin:0;font-size:17px}header .s{font-size:11.5px;opacity:.85;margin-top:1px}header .hb{margin-left:auto;display:flex;gap:6px}
+select,input,button{font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:8px 10px;min-height:40px;max-width:100%}
+button{cursor:pointer}button.p{background:var(--ac);border-color:var(--ac);color:#fff;font-weight:600}
+header button{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.3);color:#fff}header button.p{background:#fff;color:#1d3a6e}
+.bar{padding:8px 12px;background:var(--cd);border-bottom:1px solid var(--bd);position:relative}
+.bar summary{cursor:pointer;font-weight:600;list-style:none;padding:6px 0;display:flex;align-items:center;gap:8px}.bar summary::-webkit-details-marker{display:none}
+.bar summary:after{content:"▾";margin-left:auto;color:var(--mu)}.bar details[open] summary:after{content:"▴"}
+.bar .n{background:var(--ac);color:#fff;border-radius:10px;font-size:11px;padding:1px 7px}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:4px 0 8px}.fg label{display:flex;flex-direction:column;font-size:11.5px;color:var(--mu);gap:3px;min-width:0}
+.fg label.w{grid-column:1/-1}.fg select,.fg input{width:100%;color:var(--tx)}
+.fg select,.fg input{min-height:34px;padding:5px 10px}.fg .rs{grid-column:1/-1;display:flex;gap:8px}.fg .rs button{flex:1}
+main{padding:12px;max-width:1000px;margin:auto}
+.g{display:grid;grid-template-columns:1fr 1fr;gap:10px}.c{background:var(--cd);border:1px solid var(--bd);border-radius:14px;padding:12px;margin-bottom:10px;min-width:0}
+.k .l{font-size:12px;color:var(--mu)}.k .v{font-size:21px;font-weight:700;margin-top:2px}.k .s{font-size:12px;color:var(--mu);margin-top:2px}
+h2{font-size:13px;margin:0 0 8px;color:var(--mu);text-transform:uppercase;letter-spacing:.4px}h3{font-size:15px;margin:14px 0 6px}
+.sec{font-size:12px;font-weight:700;letter-spacing:.6px;color:var(--ac);margin:14px 2px 6px;text-transform:uppercase}
+.row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--bd)}.row:last-child{border:0}.row .m,.m{color:var(--mu);font-size:12px}
+.bw{height:7px;border-radius:5px;background:var(--bd);margin-top:5px;overflow:hidden}.bw i{display:block;height:100%;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:5px}
+.it{padding:10px 0;border-bottom:1px solid var(--bd)}.it:last-child{border:0}.r1{display:flex;justify-content:space-between;gap:10px;font-weight:600}.r2{font-size:12.5px;color:var(--mu);margin-top:2px}
+.bg{display:inline-block;font-size:12px;padding:2px 8px;border-radius:12px;border:1px solid var(--bd);margin-top:5px;color:var(--mu)}.bg.p{color:var(--wr);border-color:var(--wr)}.bg.r{color:var(--ok);border-color:var(--ok)}.bg.e{color:var(--er);border-color:var(--er)}
+.n{text-align:right;white-space:nowrap}.ok{color:var(--ok)}.er{color:var(--er)}.mu{color:var(--mu)}.em{text-align:center;padding:40px 16px}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--bd);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:13px}th,td{padding:7px 8px;border-bottom:1px solid var(--bd);text-align:left;white-space:nowrap}
+th{font-size:11.5px;color:var(--mu);text-transform:uppercase;letter-spacing:.3px;background:var(--cd);position:sticky;top:0}
+td.u{white-space:normal;min-width:150px;position:sticky;left:0;background:var(--cd);z-index:1}th.u{position:sticky;left:0;z-index:2}
+td.mc,th.mc{text-align:center;padding:7px 4px}.y{color:var(--ok);font-weight:700}.x{color:var(--er);font-weight:700}.z{color:var(--mu)}
+.row .chip{align-self:center}.chip{display:inline-block;background:color-mix(in srgb,var(--er) 14%,transparent);color:var(--er);border-radius:10px;padding:1px 8px;font-size:12px;font-weight:600}
+.mo{display:flex;align-items:flex-end;gap:4px;height:110px;margin-top:6px}.mo div{flex:1;text-align:center;font-size:10px;color:var(--mu);display:flex;flex-direction:column;justify-content:flex-end;height:100%;min-width:0}.mo i{display:block;background:linear-gradient(0deg,var(--ac),var(--ac2));border-radius:4px 4px 0 0;min-height:2px}.mo em{font-style:normal;font-size:10px;color:var(--tx)}
+.mod{position:sticky;top:0;z-index:6;display:flex;gap:6px;padding:5px 12px;background:var(--bg);border-bottom:1px solid var(--bd)}.mod button{flex:1;min-height:34px;padding:4px 10px;font-weight:600;color:var(--mu);border-radius:20px;white-space:nowrap}.mod button.on{background:var(--ac);border-color:var(--ac);color:#fff}
+.chs{display:flex;flex-wrap:wrap;gap:4px}.chip.ok{background:color-mix(in srgb,var(--ok) 14%,transparent);color:var(--ok)}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--cd);border-top:1px solid var(--bd);display:flex;padding:4px 4px calc(4px + env(safe-area-inset-bottom,0px));z-index:9}
+nav button{flex:1;border:0;background:none;font-size:11px;padding:4px 0;min-height:46px;color:var(--mu);border-radius:10px;min-width:0}nav button b{display:block;font-size:18px;font-weight:400}nav button.on{color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,transparent)}
+@media(min-width:700px){.g{grid-template-columns:repeat(4,1fr)}.fg{grid-template-columns:repeat(4,1fr)}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}}
+#po{display:none}.mdl{position:fixed;inset:0;z-index:99;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:14px}.mdl>div{background:var(--cd);color:var(--tx);border-radius:14px;padding:16px;max-width:480px;width:100%;display:grid;gap:10px;max-height:92vh;overflow:auto}.mdl input{width:100%}.mdl .err{color:var(--er);font-size:12.5px;min-height:16px}.mdl .bt{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+@media print{html,body{background:#fff!important;padding:0!important}body>*:not(#po){display:none!important}#po{display:block!important}}
+</style></head><body>
+<header><div><h1>GFS Dashboard</h1><div class="s" id="asof">Loading…</div></div><div class="hb"><button id="rf" title="Refresh">↻</button><button id="st" title="Connect / load data">⚙</button><button class="p" id="pr">🖨 Print</button></div></header>
+<div class="mod" id="md"></div>
+<div class="bar" id="fb"></div><main id="mn"><div class="em mu">Loading…</div></main>
+<div id="po"></div>
+<nav id="nv"></nav>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])),inr=n=>Math.round(Number(n||0)).toLocaleString('en-IN'),dm=d=>d?String(d).split('-').reverse().join('/'):'',pc6=n=>n?String(n).padStart(6,'0'):'';
+const MO=['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'];
+let TR=null,PD=null;
+const S={mod:'rc',tab:'df',mo:'',dmin:'',pm:'',fy:'',upto:0,by:'',ucat:'',prep:'',cat:'',stat:'',q:'',sh:'',per:'fy',d1:'',d2:'',mode:'',bill:'',sort:'dn',pq:'',lim:60,fo:false};
+const MODS={rc:{n:'Account Receiving',t:[['rov','▦','Overview'],['mv','📅','Month'],['df','⚠','Defaulters'],['rc','☰','Report']]},pd:{n:'GFS Payment',t:[['pov','▦','Overview'],['py','☰','Payments'],['bl','🧾','Bills'],['pe','👥','Payees'],['ck','✎','Cheques']]}};
+const TITLES={rov:'Account Receiving — Overview',mv:'Account Receiving — Month View',df:'Account Receiving — Defaulters',pov:'GFS Payment — Overview',rc:'Account Receiving Report',py:'Payment Report',bl:'Pending Bills',pe:'Payments by Payee & Category',ck:'Cheque Books'};
+/* ---------- dates ---------- */
+const z2=n=>String(n).padStart(2,'0'),f2=(y,m,d)=>y+'-'+z2(m+1)+'-'+z2(d),tds=()=>{const d=new Date();return f2(d.getFullYear(),d.getMonth(),d.getDate())},fy0=()=>{const t=new Date();return t.getMonth()>=3?t.getFullYear():t.getFullYear()-1};
+function range(){const p=S.per,t=new Date(),y=t.getFullYear(),m=t.getMonth();if(p=='all')return['0000-00-00','9999-99-99'];if(p=='m')return[f2(y,m,1),f2(y,m,31)];if(p=='lm'){const d=new Date(y,m-1,1);return[f2(d.getFullYear(),d.getMonth(),1),f2(d.getFullYear(),d.getMonth(),31)]}
+if(p=='7'){const d=new Date(t-6*864e5);return[f2(d.getFullYear(),d.getMonth(),d.getDate()),tds()]}if(p=='fy'){const s=fy0();return[s+'-04-01',(s+1)+'-03-31']}if(p=='lfy'){const s=fy0()-1;return[s+'-04-01',(s+1)+'-03-31']}return[S.d1||'0000-00-00',S.d2||'9999-99-99']}
+const PERN={m:'This month',lm:'Last month','7':'Last 7 days',fy:'This FY',lfy:'Last FY',all:'All time',c:'Custom'};
+/* ---------- data (read from the Google Apps Script sync folder) ---------- */
+const CK='gfs-sync-cfg',CC='gfsDashCache3';
+const cfg=()=>{try{return JSON.parse(localStorage.getItem(CK))||{}}catch(e){return{}}};
+async function api(body){const c=cfg();if(!c.url)throw new Error('Cloud sync is not connected yet.');let j;
+ try{const r=await fetch(c.url,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(Object.assign({key:c.key},body)),redirect:'follow'});j=await r.json()}
+ catch(e){throw new Error('Cannot reach the sync server. Check the internet connection and the Web app URL.')}
+ if(!j.ok)throw new Error(j.error||'Sync failed');return j}
+const getJSON=async n=>{const j=await api({action:'get',name:n}),bin=atob(j.b64);return JSON.parse(new TextDecoder().decode(Uint8Array.from(bin,c=>c.charCodeAt(0))))};
+const listP=async p=>(await api({action:'list',prefix:p})).files.sort((a,b)=>a.modified-b.modified);
+const curFY=()=>{const y=fy0();return y+'-'+String(y+1).slice(2)};
+function defT(y){const st=+String(y).slice(0,4),n=new Date(),cur=n.getMonth()>=3?n.getFullYear():n.getFullYear()-1;return st<cur?11:st>cur?0:(n.getMonth()+9)%12}
+function mkTR(o){const years=(o.years&&o.years.length?o.years:Object.keys(o.data||{})).slice().sort(),data={};years.forEach(y=>{data[y]=(o.data&&o.data[y])||[]});const year=years.includes(curFY())?curFY():years[years.length-1];return{years,year,def:defT(year),data}}
+function mkPD(o){return{led:o.led||[],pay:o.pay||[],sheets:o.sheets||[],acc:o.acc||[]}}
+const TOMB={},PTOMB={led:{},pay:{}},CFT={};
+function applyTr(o){for(const y in(o.rows||{})){const x=o.rows[y],L=TR.data[y]=TR.data[y]||[],T=TOMB[y]=TOMB[y]||{};if(!TR.years.includes(y)){TR.years.push(y);TR.years.sort()}
+  (x.up||[]).forEach(r=>{const i=L.findIndex(q=>q.id===r.id),lt=i<0?0:(L[i]._t||0);if((r._t||0)>Math.max(lt,T[r.id]||0)){if(i<0)L.push(r);else L[i]=r;delete T[r.id]}});
+  (x.del||[]).forEach(d=>{const i=L.findIndex(q=>q.id===d.id);if(i>=0){if(d.t>=(L[i]._t||0)){L.splice(i,1);T[d.id]=Math.max(T[d.id]||0,d.t)}}else T[d.id]=Math.max(T[d.id]||0,d.t)});
+  L.sort((a,b)=>(a.sl||0)-(b.sl||0))}
+ const yv=o.cfg&&o.cfg.years;if(yv&&Array.isArray(yv.v))yv.v.forEach(y=>{if(!TR.years.includes(y)){TR.years.push(y);TR.data[y]=TR.data[y]||[]}});TR.years.sort()}
+function applyPd(o){['led','pay'].forEach(c=>{const L=PD[c],T=PTOMB[c],x=o[c]||{};
+  (x.up||[]).forEach(r=>{const i=L.findIndex(y=>y.id==r.id),lt=i<0?0:(L[i]._t||0);if((r._t||0)>Math.max(lt,T[r.id]||0)){if(i<0)L.push(r);else L[i]=r;delete T[r.id]}});
+  (x.del||[]).forEach(d=>{const i=L.findIndex(y=>y.id==d.id);if(i>=0){if(d.t>(L[i]._t||0)){L.splice(i,1);T[d.id]=Math.max(T[d.id]||0,d.t)}}else T[d.id]=Math.max(T[d.id]||0,d.t)})});
+ Object.entries(o.cfg||{}).forEach(([f,x])=>{if((f=='sheets'||f=='acc')&&x&&x.t>(CFT[f]||0)){PD[f]=x.v;CFT[f]=x.t}})}
+async function pool(L,n,fn){const out=[];let i=0;await Promise.all(Array.from({length:Math.min(n,L.length)},async()=>{while(i<L.length){const k=i++;out[k]=await fn(L[k])}}));return out}
+async function loadCloud(){
+ const[la,lc,lp,lq]=await Promise.all([listP('ARS_backup_'),listP('ARS_chg_'),listP('GFS_Payment_Desk_backup_'),listP('GFS_chg_')]);
+ let msg=[];
+ if(la.length){const bf=la[la.length-1],o=await getJSON(bf.name),sv=(o.saved?Date.parse(o.saved):bf.modified)-120000;TR=mkTR(o);Object.keys(TOMB).forEach(k=>delete TOMB[k]);
+  const ch=lc.filter(f=>f.modified>=sv).slice(-60),os=(await pool(ch,5,f=>getJSON(f.name).catch(()=>null))).filter(x=>x&&x.app==='ARS'&&x.kind==='chg').sort((a,b)=>(a.t||0)-(b.t||0));os.forEach(applyTr);msg.push('receiving ✓')}
+ if(lp.length){const bf=lp[lp.length-1],o=await getJSON(bf.name),sv=(o.saved?Date.parse(o.saved):bf.modified)-120000;PD=mkPD(o);PTOMB.led={};PTOMB.pay={};
+  const ch=lq.filter(f=>f.modified>=sv).slice(-60),os=(await pool(ch,5,f=>getJSON(f.name).catch(()=>null))).filter(x=>x&&x.kind==='chg').sort((a,b)=>(a.t||0)-(b.t||0));os.forEach(applyPd);msg.push('payments ✓')}
+ if(!TR&&!PD)throw new Error('No backup files found in the sync folder yet. Open the Payment Desk / Tracker app once with sync connected, wait a minute, then refresh.');
+ return msg.join(' · ')}
+function ready(){return !!(TR||PD)}
+function init(){if(TR&&(!S.fy||!TR.years.includes(S.fy))){S.fy=TR.year;S.upto=TR.def}}
+function saveCache(){try{localStorage.setItem(CC,JSON.stringify({TR,PD,t:Date.now()}))}catch(e){try{localStorage.removeItem(CC)}catch(x){}}}
+function loadCache(){try{const c=JSON.parse(localStorage.getItem(CC)||'null');if(c&&(c.TR||c.PD)){TR=c.TR;PD=c.PD;return c.t}}catch(e){}return 0}
+let loading=false,loadedAt=0,lastErr='';
+function head(){const n=a=>a?a.length:0;$('#asof').textContent=(loadedAt?'Updated '+new Date(loadedAt).toLocaleString([],{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):'Not loaded')+' · '+(TR?(TR.data[S.fy]||[]).length+' units':'no receiving data')+' · '+(PD?PD.led.length+' payments':'no payment data')+(lastErr?' · ⚠ '+lastErr:'')}
+function refreshUI(){init();head();if(!document.activeElement||!$('#fb').contains(document.activeElement))rbar();rc_()}
+async function load(manual){if(loading)return;if(!cfg().url){if(!ready())openSet('Connect to your sync folder to see the reports.');return}
+ loading=true;$('#rf').textContent='…';
+ try{const m=await loadCloud();loadedAt=Date.now();lastErr='';saveCache()}catch(e){lastErr=e.message||String(e);if(manual||!ready())openSet(lastErr)}
+ finally{loading=false;$('#rf').textContent='↻';refreshUI()}}
+/* ---------- connect / load-file dialog ---------- */
+function openSet(note){const old=$('#mdl');if(old)old.remove();const c=cfg(),d=document.createElement('div');d.className='mdl';d.id='mdl';
+ d.innerHTML=`<div><b style="font-size:17px">Connect dashboard</b><div class="m">Paste the <b>Web app URL</b> and <b>sync key</b> of your GFS Apps Script (the same two values the apps use). The dashboard only reads data; it never changes it.</div><input id="mu" placeholder="https://script.google.com/macros/s/.../exec" value="${esc(c.url||'')}"><input id="mk" type="password" placeholder="Sync key" value="${esc(c.key||'')}"><div class="err" id="me">${esc(note||'')}</div><div class="bt"><button id="mf">Load a backup file…</button><button id="mc">Close</button><button class="p" id="mo">Connect &amp; load</button></div><input type="file" id="mfile" accept=".json,application/json" hidden></div>`;
+ document.body.appendChild(d);
+ $('#mc').onclick=()=>d.remove();
+ $('#mo').onclick=async()=>{const url=$('#mu').value.trim(),key=$('#mk').value.trim(),E=$('#me');if(!/^https:\/\/script\.google\.com\//.test(url)){E.textContent='The URL must start with https://script.google.com/ and end with /exec';return}if(!key){E.textContent='Enter the sync key';return}
+  const old=localStorage.getItem(CK);try{localStorage.setItem(CK,JSON.stringify({url,key,name:'Cloud sync'}));E.style.color='var(--mu)';E.textContent='Connecting and loading…';await api({action:'ping'});d.remove();load(true)}catch(e){if(old===null)localStorage.removeItem(CK);else localStorage.setItem(CK,old);E.style.color='var(--er)';E.textContent=e.message||'Could not connect'}};
+ $('#mf').onclick=()=>$('#mfile').click();
+ $('#mfile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const o=JSON.parse(r.result);if(o.app==='ARS'&&o.data)TR=mkTR(o);else if(o.app==='GFS Payment Desk'&&Array.isArray(o.led))PD=mkPD(o);else throw 0;loadedAt=Date.now();lastErr='';saveCache();d.remove();refreshUI()}catch(x){$('#me').textContent='Not a GFS backup file. Choose ARS_backup_….json or GFS_Payment_Desk_backup_….json'}};r.readAsText(f)}}
+/* ---------- tracker helpers ---------- */
+const trAll=()=>TR?(TR.data[S.fy]||[]):[];
+const miss=r=>MO.slice(0,S.upto+1).filter((_,i)=>!(r.m||[])[i]);
+const isSub=(r,L)=>!!r.parent&&L.some(p=>p.id===r.parent);
+function statOk(r){switch(S.stat){case'ok':return !miss(r).length;case'miss':return miss(r).length>0;case'rec':return !!(r.m||[])[S.upto];case'not':return !(r.m||[])[S.upto];default:return true}}
+function trF(){const L=trAll(),q=S.q.toLowerCase();return L.filter(r=>(!S.by||r.by===S.by)&&(!S.ucat||r.ucat===S.ucat)&&(!S.prep||r.prep===S.prep)&&(!S.cat||r.cat===S.cat)&&(!q||(r.unit+' '+r.prep+' '+(r.tally||'')+' '+(r.old||'')).toLowerCase().includes(q))&&statOk(r))}
+function trStats(R){const ms=R.map(miss),clear=ms.filter(m=>!m.length).length,slots=R.length*(S.upto+1),done=ms.reduce((a,m)=>a+(S.upto+1-m.length),0);
+ return{ms,clear,pending:R.length-clear,pct:slots?Math.round(done/slots*100):0,monthly:MO.map((_,i)=>R.filter(r=>(r.m||[])[i]).length)}}
+function grpT(R,key){const o={};R.forEach(r=>{const k=r[key]||'—';(o[k]=o[k]||{n:0,ok:0,mm:0});o[k].n++;const m=miss(r).length;if(!m)o[k].ok++;o[k].mm+=m});return Object.entries(o).sort((a,b)=>b[1].mm-a[1].mm||a[0].localeCompare(b[0]))}
+const uniq=(L,k)=>[...new Set(L.map(r=>r[k]).filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b)));
+/* ---------- payment helpers ---------- */
+const sum=(L,f=r=>+r.amt||0)=>L.reduce((t,r)=>t+(r.st?0:f(r)),0);
+function prow(all,inc){if(!PD)return[];const[a,b]=range();return PD.led.filter(r=>(inc||!r.st)&&(!S.sh||r.sh==S.sh)&&(all||(r.date>=a&&r.date<=b)))}
+function grp(L,key){const m={};L.forEach(r=>{if(r.st)return;const k=key(r)||'—';(m[k]=m[k]||{n:0,a:0}).n++;m[k].a+=+r.amt||0});return Object.entries(m).sort((x,y)=>y[1].a-x[1].a)}
+const age=d=>Math.max(0,Math.floor((Date.now()-new Date(d))/864e5));
+const shs=()=>PD?(PD.sheets&&PD.sheets.length?PD.sheets.map(s=>s.k):[...new Set(PD.led.map(r=>r.sh))]):[];
+function bal(k){const s=(PD.sheets||[]).find(x=>x.k==k)||{},an=(s.bal||[]).slice().sort((a,b)=>a.date.localeCompare(b.date));if(!an.length)return null;let cur=null,i=0;const L=PD.led.filter(r=>r.sh==k).sort((a,b)=>a.date.localeCompare(b.date)||(a.chq-b.chq));for(const r of L){while(i<an.length&&an[i].date<=r.date){cur=+an[i].amt;i++}if(cur!=null&&!r.st)cur-=+r.amt||0}while(i<an.length){cur=+an[i].amt;i++}return{v:cur,d:an[an.length-1].date}}
+const thr=a=>a.al===''||a.al==null||isNaN(+a.al)?10:+a.al;
+const aleft=a=>{const Rr=(a.ranges||[]).map(r=>({f:+r.from,t:+r.to})).filter(r=>r.f&&r.t>=r.f);if(!Rr.length)return(a.done&&a.done.length)?0:null;const U=PD.led.filter(r=>r.sh==a.sh&&r.chq).map(r=>+r.chq);return Rr.reduce((s,r)=>s+(r.t-r.f+1-U.filter(x=>x>=r.f&&x<=r.t).length),0)};
+const cal=()=>PD?(PD.acc||[]).map(a=>[a,aleft(a)]).filter(x=>x[1]!=null&&x[1]<=thr(x[0])):[];
+const billTxt=r=>r.st=='c'?'Cancelled':r.st=='r'?'Returned':r.bill=='p'?'Pending · '+age(r.date)+'d':r.bill=='r'?'Received'+(r.bn?' · '+r.bn:''):r.bill=='n'?'Not needed':'';
+const billB=r=>r.st=='c'?'<span class="bg e">✖ Cancelled</span>':r.st=='r'?'<span class="bg e">↩ Returned</span>':r.bill=='p'?`<span class="bg p">⏳ Bill pending · ${age(r.date)}d</span>`:r.bill=='r'?`<span class="bg r">✓ Bill received${r.bn?' · '+esc(r.bn):''}</span>`:r.bill=='n'?'<span class="bg">Bill not needed</span>':'';
+const item=r=>`<div class="it"><div class="r1"><span>${r.st=='c'?'CANCELLED':esc(r.payee)}</span><span class="n">${r.st=='c'?'':r.st=='r'?'<s>₹'+inr(r.amt)+'</s>':'₹'+inr(r.amt)}</span></div><div class="r2">${dm(r.date)}${r.chq?' · '+pc6(r.chq):''} · ${esc(r.mode)} · ${esc(r.sh)}${r.tds?' · TDS ₹'+inr(r.tds):''}</div>${r.rem?`<div class="r2">${esc(r.rem)}</div>`:''}${billB(r)}</div>`;
+const kp=(l,v,s,c)=>`<div class="c k"><div class="l">${l}</div><div class="v ${c||''}">${v}</div><div class="s">${s||''}</div></div>`;
+function bars(E,max){return E.map(([k,v])=>`<div class="row" style="display:block"><div style="display:flex;justify-content:space-between;gap:10px"><span>${esc(k)}</span><b>₹${inr(v.a)}</b></div><div class="m">${v.n} payment${v.n>1?'s':''}</div><div class="bw"><i style="width:${max?Math.max(2,v.a/max*100):0}%"></i></div></div>`).join('')||'<div class="mu">No data</div>'}
+const mx=E=>Math.max(0,...E.map(x=>x[1].a));
+/* ---------- filter bar ---------- */
+const opt=(L,cur,all)=>`<option value="">${all}</option>`+L.map(v=>`<option value="${esc(v)}" ${v===cur?'selected':''}>${esc(v)}</option>`).join('');
+const sel=(k,label,html,w)=>`<label class="${w?'w':''}">${label}<select data-k="${k}">${html}</select></label>`;
+const perSel=()=>sel('per','Period',Object.entries(PERN).map(([v,n])=>`<option value="${v}" ${S.per==v?'selected':''}>${n==='Custom'?'Custom…':n}</option>`).join(''))+(S.per=='c'?`<label>From<input type="date" data-k="d1" value="${S.d1}"></label><label>To<input type="date" data-k="d2" value="${S.d2}"></label>`:'');
+const fySel=()=>TR?sel('fy','Finance year (receiving)',TR.years.map(y=>`<option ${y===S.fy?'selected':''}>${esc(y)}</option>`).join('')):'';
+const upSel=()=>TR?sel('upto','Report up to',MO.map((m,i)=>`<option value="${i}" ${i==S.upto?'selected':''}>${m}</option>`).join('')):'';
+const shSel=()=>PD?sel('sh','Sheet',opt(shs(),S.sh,'All sheets')):'';
+const modes=()=>PD?[...new Set(PD.led.map(r=>r.mode).filter(Boolean))].sort():[];
+const srch=(k,ph)=>`<label class="w">Search<input type="search" data-k="${k}" placeholder="${ph}" value="${esc(S[k])}"></label>`;
+function fdesc(){const o=[],t=S.tab;
+ if(t=='rov'||t=='rc'||t=='mv'||t=='df'){if(TR){o.push('Finance year '+S.fy);o.push('Up to '+MO[S.upto])}}
+ if(t=='mv'||t=='df'){if(t=='mv')o.push('Month '+MO[mi()]);if(t=='df'&&S.dmin)o.push(S.dmin+'+ months outstanding');if(S.by)o.push('Done by '+S.by);if(S.ucat)o.push('Unit category '+S.ucat);if(S.cat)o.push('Cat. '+S.cat);if(S.prep)o.push('Prepared by '+S.prep);if(S.q)o.push('Search "'+S.q+'"')}
+ if(t=='rc'){if(S.by)o.push('Done by '+S.by);if(S.ucat)o.push('Unit category '+S.ucat);if(S.cat)o.push('Cat. '+S.cat);if(S.prep)o.push('Prepared by '+S.prep);if(S.stat)o.push('Status: '+({ok:'Up to date',miss:'Missing months',rec:'Received in '+MO[S.upto],not:'Not received in '+MO[S.upto]})[S.stat]);if(S.q)o.push('Search "'+S.q+'"')}
+ if(t=='pov'||t=='py'||t=='bl'||t=='pe'){if(S.sh)o.push('Sheet '+S.sh);else if(PD)o.push('All sheets')}
+ if(t=='pov'||t=='py'||t=='pe'){const[a,b]=range();o.push(S.per=='all'?'All time':PERN[S.per]+(S.per=='c'?'':' ('+dm(a)+' – '+dm(b)+')'));if(S.per=='c')o.push((S.d1?dm(S.d1):'start')+' – '+(S.d2?dm(S.d2):'today'))}
+ if(t=='py'){if(S.mode)o.push('Mode '+S.mode);if(S.bill)o.push('Bill: '+({p:'Pending',r:'Received',n:'Not needed'})[S.bill]);if(S.pq)o.push('Search "'+S.pq+'"')}
+ if(t=='bl'&&S.pq)o.push('Search "'+S.pq+'"');
+ return o}
+const FKEYS={rov:['fy','upto'],mv:['fy','upto','mo','by','ucat','cat','prep','q'],df:['fy','upto','by','ucat','cat','prep','dmin','q'],pov:['sh','per'],rc:['fy','upto','by','ucat','cat','prep','stat','q'],py:['sh','per','mode','bill','sort','pq'],bl:['sh','pq'],pe:['sh','per'],ck:[]};
+function activeN(){let n=0;const d={dmin:'',by:'',ucat:'',cat:'',prep:'',stat:'',q:'',sh:'',mode:'',bill:'',pq:''};FKEYS[S.tab].forEach(k=>{if(k in d&&S[k])n++;if(k=='per'&&S.per!='fy')n++});return n}
+function rbar(){const t=S.tab,b=$('#fb');if(t=='ck'||!ready()){b.style.display='none';return}b.style.display='';let h='';const L=trAll();
+ if(t=='rov')h=fySel()+upSel();
+ const rcF=()=>sel('prep','Prepared by',opt(uniq(L,'prep'),S.prep,'Everyone'))+sel('ucat','Unit category',opt(uniq(L,'ucat'),S.ucat,'All'))+sel('cat','Cat.',opt(uniq(L,'cat'),S.cat,'All'))+sel('by','Done by',opt(uniq(L,'by'),S.by,'Everyone'))+srch('q','Unit name');
+ if(t=='mv')h=fySel()+sel('mo','Month',MO.map((m,i)=>`<option value="${i}" ${i==mi()?'selected':''}>${m}</option>`).join(''))+upSel().replace('Report up to','Missing months up to')+rcF();
+ if(t=='df')h=fySel()+upSel()+sel('dmin','Months outstanding',[['','Any (1+)'],['2','2+'],['3','3+'],['4','4+'],['6','6+']].map(([v,n])=>`<option value="${v}" ${S.dmin==v?'selected':''}>${n}</option>`).join(''))+rcF();
+ if(t=='pov')h=shSel()+perSel();
+ if(t=='rc')h=fySel()+upSel()+sel('by','Done by',opt(uniq(L,'by'),S.by,'Everyone'))+sel('ucat','Unit category',opt(uniq(L,'ucat'),S.ucat,'All'))+sel('cat','Cat.',opt(uniq(L,'cat'),S.cat,'All'))+sel('prep','Prepared by',opt(uniq(L,'prep'),S.prep,'Everyone'))+sel('stat','Status',`<option value="">All</option><option value="ok" ${S.stat=='ok'?'selected':''}>Up to date</option><option value="miss" ${S.stat=='miss'?'selected':''}>Missing months</option><option value="rec" ${S.stat=='rec'?'selected':''}>Received in ${MO[S.upto]}</option><option value="not" ${S.stat=='not'?'selected':''}>Not received in ${MO[S.upto]}</option>`)+srch('q','Unit, person, tally no.');
+ if(t=='py')h=shSel()+perSel()+sel('mode','Mode',opt(modes(),S.mode,'All modes'))+sel('bill','Bill',`<option value="">All</option><option value="p" ${S.bill=='p'?'selected':''}>Pending</option><option value="r" ${S.bill=='r'?'selected':''}>Received</option><option value="n" ${S.bill=='n'?'selected':''}>Not needed</option>`)+sel('sort','Sort',`<option value="dn" ${S.sort=='dn'?'selected':''}>Newest first</option><option value="up" ${S.sort=='up'?'selected':''}>Oldest first</option><option value="ah" ${S.sort=='ah'?'selected':''}>Amount: high to low</option><option value="al" ${S.sort=='al'?'selected':''}>Amount: low to high</option>`)+srch('pq','Payee, remark or cheque no.');
+ if(t=='bl')h=shSel()+srch('pq','Payee, remark or cheque no.');
+ if(t=='pe')h=shSel()+perSel();
+ const n=activeN();
+ b.innerHTML=`<details id="fd" ${S.fo?'open':''}><summary>Filters ${n?`<span class="n">${n} active</span>`:''}<span class="m" style="font-weight:400">${esc(fdesc().slice(0,2).join(' · '))}</span></summary><div class="fg">${h}<div class="rs"><button data-reset>Reset filters</button></div></div></details>`;
+ $('#fd').addEventListener('toggle',e=>{S.fo=e.target.open})}
+document.addEventListener('input',e=>{const k=e.target.dataset&&e.target.dataset.k;if(!k||e.target.tagName=='SELECT')return;S[k]=e.target.value;S.lim=60;if(k=='d1'||k=='d2'){rbarSoft()}rc_()});
+document.addEventListener('change',e=>{const k=e.target.dataset&&e.target.dataset.k;if(!k||e.target.tagName!='SELECT')return;let v=e.target.value;if(k=='upto'||k=='mo')v=+v;S[k]=v;S.lim=60;
+ if(k=='fy'){S.upto=defT(v);S.mo=''}
+ rbar();rc_()});
+function rbarSoft(){}
+document.addEventListener('click',e=>{if(e.target.closest('[data-reset]')){Object.assign(S,{by:'',ucat:'',cat:'',prep:'',stat:'',q:'',sh:'',per:'fy',d1:'',d2:'',mode:'',bill:'',sort:'dn',pq:'',lim:60,mo:'',dmin:''});if(TR){S.fy=TR.year;S.upto=TR.def}rbar();rc_()}
+ const m=e.target.closest('[data-more]');if(m){S.lim+=60;rc_()}
+ const pb=e.target.closest('[data-pm]');if(pb){S.pm=pb.dataset.pm;doPrint();S.pm=''}});
+const NK='gfs-dash-nav',DEF={rc:'df',pd:'py'};
+function buildNav(){const m=MODS[S.mod];$('#md').innerHTML=Object.entries(MODS).map(([k,v])=>`<button data-m="${k}" class="${k==S.mod?'on':''}">${k=='rc'?'📥':'💳'} ${v.n}</button>`).join('');
+ $('#nv').innerHTML=m.t.map(([k,ic,l])=>`<button data-t="${k}" class="${k==S.tab?'on':''}"><b>${ic}</b>${l}</button>`).join('')}
+function goTab(mod,tab){S.mod=mod;S.tab=tab;S.lim=60;try{localStorage.setItem(NK,JSON.stringify({mod}))}catch(e){}buildNav();rbar();rc_();scrollTo(0,0)}
+$('#nv').addEventListener('click',e=>{const b=e.target.closest('button');if(b)goTab(S.mod,b.dataset.t)});
+$('#md').addEventListener('click',e=>{const b=e.target.closest('button');if(b&&b.dataset.m!=S.mod)goTab(b.dataset.m,DEF[b.dataset.m])});
+$('#rf').onclick=()=>load(true);$('#st').onclick=()=>openSet();
+/* ---------- views ---------- */
+function rc_(){const m=$('#mn');if(!ready()){$('#mn').innerHTML='<div class="em"><div style="font-size:42px">📊</div><p class="mu">Tap ⚙ to connect the dashboard to your sync folder.</p><button class="p" onclick="openSet()">Connect</button></div>';return}const v={rov,pov,mv,df,rc,py,bl,pe,ck}[S.tab];m.innerHTML=v()}
+const noPD='<div class="c mu">No payment data yet. Tap ⚙ to connect, or load a GFS_Payment_Desk_backup file.</div>',noTR='<div class="c mu">No receiving data yet. Tap ⚙ to connect, or load an ARS_backup file.</div>';
+function rov(){let h='';
+ if(TR){const R=trAll(),st=trStats(R),subs=R.filter(r=>isSub(r,R)).length,worst=R.map((r,i)=>[r,st.ms[i]]).filter(x=>x[1].length).sort((a,b)=>b[1].length-a[1].length).slice(0,8),max=Math.max(1,R.length);
+  h+=`<div class="g">${kp('Units',R.length-subs,subs?'+ '+subs+' sub-unit'+(subs>1?'s':''):'')}${kp('Up to date',st.clear,'by '+MO[S.upto],'ok')}${kp('With missing months',st.pending,'','er')}${kp('Accounts received',st.pct+'%','')}</div>
+  <div class="two"><div class="c"><h2>Units submitted, by month</h2><div class="mo">${MO.map((m,i)=>`<div><em>${st.monthly[i]||''}</em><i style="height:${Math.max(2,st.monthly[i]/max*80)}px;${i==S.upto?'background:var(--wr)':''}"></i>${m}</div>`).join('')}</div></div>
+  <div class="c"><h2>Most months outstanding</h2>${worst.map(([r,mm])=>`<div class="row"><span>${esc(r.unit)}<div class="m">${esc(r.prep)}</div></span><span class="chip">${mm.length}</span></div>`).join('')||'<div class="mu">Every unit is up to date 🎉</div>'}</div></div>`}else h+=noTR;
+ return h}
+function pov(){let h='';
+ if(PD){const CA=cal();if(CA.length)h+=`<div class="c" style="border-color:var(--er)"><h2 class="er">⚠ Apply for new cheques</h2>${CA.map(([a,n])=>`<div class="row"><span>${esc(a.sh)}<div class="m">A/c …${esc(String(a.no).slice(-4))}</div></span><b class="er">${n?n+' leaves left':'No leaves left'}</b></div>`).join('')}</div>`}
+ if(PD){const L=prow(),t=tds(),all=prow(true,true).filter(r=>!r.st),pend=all.filter(r=>r.bill=='p'),tm=all.filter(r=>r.date==t),mon={};L.forEach(r=>{const k=r.date.slice(0,7);mon[k]=(mon[k]||0)+(+r.amt||0)});const ks=Object.keys(mon).sort().slice(-12),mxv=Math.max(1,...ks.map(k=>mon[k])),bs=shs().map(k=>[k,bal(k)]).filter(x=>x[1]);
+  h+=`<div class="g">${kp('Payments in period','₹'+inr(sum(L)),L.length+' payments')}${kp('Today','₹'+inr(sum(tm)),tm.length+' payments')}${kp('Pending bills','₹'+inr(sum(pend)),pend.length+' bills','er')}${kp('TDS in period','₹'+inr(sum(L,r=>+r.tds||0)),'')}</div>
+  ${bs.length?`<div class="c"><h2>Available balance</h2>${bs.map(([k,b])=>`<div class="row"><div>${esc(k)}<div class="m">balance set ${dm(b.d)}</div></div><b class="${b.v<0?'er':'ok'}">${b.v<0?'-':''}₹${inr(Math.abs(b.v))}</b></div>`).join('')}</div>`:''}
+  <div class="c"><h2>Monthly payments</h2>${ks.length?`<div class="mo">${ks.map(k=>`<div><i style="height:${Math.max(2,mon[k]/mxv*88)}px" title="₹${inr(mon[k])}"></i>${k.slice(5)}/${k.slice(2,4)}</div>`).join('')}</div>`:'<div class="mu">No data in this period</div>'}</div>
+  <div class="two"><div class="c"><h2>By sheet</h2>${bars(grp(L,r=>r.sh),mx(grp(L,r=>r.sh)))}</div><div class="c"><h2>By payment mode</h2>${bars(grp(L,r=>r.mode),mx(grp(L,r=>r.mode)))}</div></div>`}else h+=noPD;
+ return h}
+function rcCols(R){return R}
+function rc(){if(!TR)return noTR;const R=trF(),all=trAll(),st=trStats(R),subs=R.filter(r=>isSub(r,all)).length,max=Math.max(1,R.length);
+ const lim=S.lim,sl=R.slice(0,lim);
+ return `<div class="g">${kp('Units shown',R.length-subs,subs?'+ '+subs+' sub-unit'+(subs>1?'s':''):'of '+all.length)}${kp('Up to date',st.clear,'by '+MO[S.upto],'ok')}${kp('With missing months',st.pending,'','er')}${kp('Accounts received',st.pct+'%','')}</div>
+ <div class="c"><h2>Units submitted, by month</h2><div class="mo">${MO.map((m,i)=>`<div><em>${st.monthly[i]||''}</em><i style="height:${Math.max(2,st.monthly[i]/max*80)}px;${i==S.upto?'background:var(--wr)':''}"></i>${m}</div>`).join('')}</div></div>
+ <div class="two"><div class="c"><h2>By person who prepared</h2>${gtab(grpT(R,'prep'))}</div><div class="c"><h2>By unit category</h2>${gtab(grpT(R,'ucat'))}</div></div>
+ <h3>Units (${R.length})</h3><div class="tw"><table><thead><tr><th class="u">Unit</th>${MO.map((m,i)=>`<th class="mc" ${i==S.upto?'style="color:var(--wr)"':''}>${m}</th>`).join('')}<th>Missing</th><th>Prepared by</th><th>Done by</th></tr></thead><tbody>${sl.map(r=>{const mm=miss(r);return`<tr><td class="u">${isSub(r,all)?'↳ ':''}${esc(r.unit)}<div class="m">${esc(r.ucat||'')}${r.cat?' · '+esc(r.cat):''}</div></td>${MO.map((_,i)=>`<td class="mc">${(r.m||[])[i]?'<span class="y">✓</span>':i<=S.upto?'<span class="x">✗</span>':'<span class="z">·</span>'}</td>`).join('')}<td>${mm.length?`<span class="chip">${mm.length}</span>`:'<span class="ok">✓</span>'}</td><td>${esc(r.prep)}</td><td>${esc(r.by)}</td></tr>`}).join('')||'<tr><td colspan="16" class="mu" style="text-align:center;padding:20px">No units match these filters.</td></tr>'}</tbody></table></div>${R.length>lim?`<button data-more style="width:100%;margin-top:8px">Show more (${R.length-lim} left)</button>`:''}`}
+function gtab(E){return `<div class="tw"><table><thead><tr><th>Name</th><th class="n">Units</th><th class="n">Up to date</th><th class="n">Months out</th></tr></thead><tbody>${E.map(([g,v])=>`<tr><td style="white-space:normal">${esc(g)}</td><td class="n">${v.n}</td><td class="n ok">${v.ok}</td><td class="n ${v.mm?'er':''}">${v.mm}</td></tr>`).join('')||'<tr><td colspan="4" class="mu">No data</td></tr>'}</tbody></table></div>`}
+
+const mi=()=>S.mo===''?S.upto:+S.mo,missT=(r,t)=>MO.slice(0,t+1).filter((_,i)=>!(r.m||[])[i]);
+function trB(){const q=S.q.toLowerCase();return trAll().filter(r=>(!S.by||r.by===S.by)&&(!S.ucat||r.ucat===S.ucat)&&(!S.prep||r.prep===S.prep)&&(!S.cat||r.cat===S.cat)&&(!q||(r.unit+' '+r.prep+' '+(r.tally||'')+' '+(r.old||'')).toLowerCase().includes(q)))}
+const unm=(r,all)=>`${isSub(r,all)?'↳ ':''}${esc(r.unit)}<div class="m">${esc(r.ucat||'')}${r.cat?' · '+esc(r.cat):''}</div>`;
+const chs=ms=>ms.length?`<div class="chs">${ms.map(m=>`<span class="chip">${m}</span>`).join('')}</div>`:'<span class="chip ok">All submitted</span>';
+function mvData(){const i=mi(),R=trB();return{i,t:Math.max(S.upto,i),all:trAll(),sub:R.filter(r=>(r.m||[])[i]),pen:R.filter(r=>!(r.m||[])[i])}}
+function mv(){if(!TR)return noTR;const{i,t,all,sub,pen}=mvData(),n=sub.length+pen.length,
+ tb=(l,empty)=>`<div class="tw"><table><thead><tr><th class="u">Unit</th><th>Prepared by</th><th>Missing months</th></tr></thead><tbody>${l.map(r=>`<tr><td class="u">${unm(r,all)}</td><td>${esc(r.prep||'')}</td><td style="white-space:normal">${chs(missT(r,t))}</td></tr>`).join('')||`<tr><td colspan="3" class="mu">${empty}</td></tr>`}</tbody></table></div>`;
+ return `<div class="g">${kp('Received in '+MO[i],sub.length,'of '+n+' units','ok')}${kp('Not received',pen.length,'in '+MO[i],'er')}${kp('Units',n,'')}${kp('Received',n?Math.round(sub.length/n*100)+'%':'—','')}</div>
+ <div class="c" style="display:flex;gap:8px"><button data-pm="not" style="flex:1">🖨 Print not received</button><button data-pm="rec" style="flex:1">🖨 Print received</button></div>
+ <div class="two"><div class="c"><h2>Not received in ${MO[i]} (${pen.length})</h2>${tb(pen,'All units have submitted.')}</div><div class="c"><h2>Received in ${MO[i]} (${sub.length})</h2>${tb(sub,'No accounts received yet for this month.')}</div></div>`}
+function dfData(){const min=+S.dmin||1,all=trAll(),l=trB().map(r=>[r,miss(r)]).filter(x=>x[1].length>=min),g={};l.forEach(([r,m])=>{const k=r.prep||'—';(g[k]=g[k]||[]).push([r,m])});const names=Object.keys(g).sort();names.forEach(k=>g[k].sort((a,b)=>b[1].length-a[1].length||(a[0].sl||0)-(b[0].sl||0)));return{l,g,names,all,tot:l.reduce((a,x)=>a+x[1].length,0)}}
+function df(){if(!TR)return noTR;const{l,g,names,all,tot}=dfData(),w=l.slice().sort((a,b)=>b[1].length-a[1].length)[0];
+ return `<div class="g">${kp('Defaulter units',l.length,'up to '+MO[S.upto],l.length?'er':'ok')}${kp('Months outstanding',tot,'in total')}${kp('Persons',names.length,'with pending units')}${kp('Longest pending',w?w[1].length+' mo':'—',w?esc(w[0].unit):'')}</div>`
+ +(names.map(n=>`<div class="c"><h2>${esc(n)} <span class="chip">${g[n].length} unit${g[n].length>1?'s':''}</span></h2><div class="tw"><table><thead><tr><th class="u">Unit</th><th>Missing months</th><th class="n">Count</th></tr></thead><tbody>${g[n].map(([r,m])=>`<tr><td class="u">${unm(r,all)}</td><td style="white-space:normal">${chs(m)}</td><td class="n er">${m.length}</td></tr>`).join('')}</tbody></table></div></div>`).join('')||'<div class="c em">Every unit is up to date. Nothing to chase. 🎉</div>')}
+function pyRows(){let L=prow(false,true);const q=S.pq.toLowerCase();if(S.mode)L=L.filter(r=>r.mode==S.mode);if(S.bill)L=L.filter(r=>!r.st&&r.bill==S.bill);if(q)L=L.filter(r=>(r.payee+' '+(r.rem||'')+' '+(r.chq||'')+' '+r.mode).toLowerCase().includes(q));
+ const s=S.sort,ch=(a,b)=>(a.chq||0)-(b.chq||0);L.sort(s=='up'?(a,b)=>a.date.localeCompare(b.date)||ch(a,b):s=='ah'?(a,b)=>(+b.amt||0)-(+a.amt||0):s=='al'?(a,b)=>(+a.amt||0)-(+b.amt||0):(a,b)=>b.date.localeCompare(a.date)||ch(b,a));return L}
+function py(){if(!PD)return noPD;const L=pyRows(),lim=S.lim,pend=L.filter(r=>!r.st&&r.bill=='p');
+ return `<div class="g">${kp('Total paid','₹'+inr(sum(L)),L.filter(r=>!r.st).length+' payments')}${kp('TDS','₹'+inr(sum(L,r=>+r.tds||0)),'')}${kp('Pending bills','₹'+inr(sum(pend)),pend.length+' bills','er')}${kp('Entries shown',L.length,'incl. cancelled / returned')}</div>
+ <div class="c" id="pl"><h2>${L.length} entries · ₹${inr(sum(L))}</h2>${L.slice(0,lim).map(item).join('')||'<div class="mu">No payments match these filters.</div>'}${L.length>lim?`<button data-more style="width:100%;margin-top:8px">Show more (${L.length-lim} left)</button>`:''}</div>`}
+const bk=[['0–7 days',0,7],['8–30 days',8,30],['31–90 days',31,90],['Over 90 days',91,1e9]];
+function blRows(){if(!PD)return[];const q=S.pq.toLowerCase();return prow(true,false).filter(r=>r.bill=='p'&&(!q||(r.payee+' '+(r.rem||'')+' '+(r.chq||'')).toLowerCase().includes(q))).sort((a,b)=>a.date.localeCompare(b.date))}
+function bl(){if(!PD)return noPD;const P=blRows(),all=prow(true,false),rc=all.filter(r=>r.bill=='r').length,lim=S.lim;
+ return `<div class="g">${kp('Bills pending','₹'+inr(sum(P)),P.length+' payments','er')}${kp('Bills received',rc,'')}</div><div class="c"><h2>Pending by age</h2>${bk.map(([l,a,b])=>{const X=P.filter(r=>age(r.date)>=a&&age(r.date)<=b);return`<div class="row"><span>${l}</span><span><b>₹${inr(sum(X))}</b> <span class="m">· ${X.length}</span></span></div>`}).join('')}</div><div class="c"><h2>Pending bills (oldest first)</h2>${P.slice(0,lim).map(item).join('')||'<div class="mu">No pending bills 🎉</div>'}${P.length>lim?`<button data-more style="width:100%;margin-top:8px">Show more (${P.length-lim} left)</button>`:''}</div>`}
+function peData(){const L=prow(),cat={};(PD.pay||[]).forEach(p=>{cat[String(p.name).toLowerCase()]=p.cat||''});const nm={};PD.led.forEach(r=>{nm[String(r.payee).toLowerCase()]=r.payee});return{G:grp(L,r=>String(r.payee).toLowerCase()),C:grp(L,r=>cat[String(r.payee).toLowerCase()]||'Uncategorised'),nm}}
+function pe(){if(!PD)return noPD;const{G,C,nm}=peData();return `<div class="two"><div class="c"><h2>By category</h2>${bars(C,mx(C))}</div><div class="c"><h2>By payee (${G.length})</h2>${bars(G.slice(0,50).map(([k,v])=>[nm[k]||k,v]),mx(G))}</div></div>`}
+function ckData(){const A=PD.acc||[];return A.map(a=>{const U=PD.led.filter(r=>r.sh==a.sh&&r.chq).map(r=>+r.chq),R=(a.ranges||[]).map(r=>({f:+r.from,t:+r.to})).filter(r=>r.f&&r.t>=r.f),last=U.length?Math.max(...U):0,ta=aleft(a);return{a,R,U,last,ta,warn:ta!=null&&ta<=thr(a)}})}
+function ck(){if(!PD)return noPD;const D=ckData();return D.length?D.map(({a,R,U,last,ta,warn})=>`<div class="c"><h2>${esc(a.sh)}${warn?' <span class="er">· ⚠ apply for new cheques</span>':''}</h2><div class="m">A/c …${esc(String(a.no).slice(-4))}</div><div class="row"><span>Last cheque used</span><b>${last?pc6(last):'—'}</b></div>${R.length?R.map(r=>{const u=U.filter(x=>x>=r.f&&x<=r.t).length,n=r.t-r.f+1;return`<div class="row" style="display:block"><div style="display:flex;justify-content:space-between"><span>${pc6(r.f)} – ${pc6(r.t)}</span><b class="${n-u<=3?'er':''}">${n-u} left</b></div><div class="m">${u} of ${n} used</div><div class="bw"><i style="width:${u/n*100}%"></i></div></div>`}).join(''):'<div class="m">No cheque range set</div>'}</div>`).join(''):'<div class="c mu">No sender accounts set up.</div>'}
+/* ---------- print ---------- */
+const PCSS=`<style>@page{size:A4 portrait;margin:10mm}.pr.ls{page:land}@page land{size:A4 landscape;margin:8mm}.pr{font:11px/1.35 Arial,Helvetica,sans-serif;color:#000;background:#fff}.pr h1{font-size:16px;margin:0}.pr h2{font-size:13px;margin:3px 0 2px}.pr h3{font-size:12px;margin:12px 0 4px}.pr .pm{font-size:10px;color:#444;margin:2px 0 8px}.pr .ks{display:flex;gap:18px;flex-wrap:wrap;margin:6px 0 8px;font-size:11px}.pr .ks b{font-size:13px}.pr table{border-collapse:collapse;width:100%;margin-bottom:8px}.pr th,.pr td{border:1px solid #777;padding:2px 4px;text-align:left;vertical-align:top}.pr th{background:#e8e8e8;font-size:10px}.pr thead{display:table-header-group}.pr tr{break-inside:avoid}.pr .n{text-align:right}.pr .c{text-align:center}.pr .tl{font-weight:700}</style>`;
+const pt=(heads,rows,al)=>`<table><thead><tr>${heads.map((h,i)=>`<th class="${(al||[])[i]||''}">${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((c,i)=>`<td class="${(al||[])[i]||''}">${c}</td>`).join('')}</tr>`).join('')||`<tr><td colspan="${heads.length}">No data</td></tr>`}</tbody></table>`;
+const ks=a=>`<div class="ks">${a.map(([l,v])=>`<span>${l}<br><b>${v}</b></span>`).join('')}</div>`;
+function pbody(){const t=S.tab,rs='₹';
+ if(t=='mv'){const{i,t:tt,all,sub,pen}=mvData(),pm=S.pm,T=l=>pt(['#','Unit','Prepared by','Missing months'],l.map((r,k)=>[k+1,(isSub(r,all)?'↳ ':'')+esc(r.unit),esc(r.prep||''),missT(r,tt).join(', ')||'All submitted']));
+  return{ls:0,h:ks([['Received in '+MO[i],sub.length],['Not received',pen.length]])+(pm!='rec'?`<h3>Not received in ${MO[i]} (${pen.length})</h3>`+T(pen):'')+(pm!='not'?`<h3>Received in ${MO[i]} (${sub.length})</h3>`+T(sub):'')}}
+ if(t=='df'){const{l,g,names,all,tot}=dfData();return{ls:0,h:ks([['Defaulter units',l.length],['Months outstanding',tot]])+(names.map(n=>`<h3>${esc(n)} (${g[n].length})</h3>`+pt(['Unit','Missing months','Count'],g[n].map(([r,m])=>[(isSub(r,all)?'↳ ':'')+esc(r.unit),m.join(', '),m.length]),['','','n'])).join('')||'<p>Every unit is up to date.</p>')}}
+ if(t=='rc'){const R=trF(),all=trAll(),st=trStats(R);return{ls:1,h:ks([['Units',R.length],['Up to date',st.clear],['With missing months',st.pending],['Accounts received',st.pct+'%']])+pt(['#','Unit','Cat.',...MO,'Missing','Prepared by','Done by'],R.map((r,i)=>[i+1,(isSub(r,all)?'↳ ':'')+esc(r.unit),esc(r.cat||''),...MO.map((_,j)=>(r.m||[])[j]?'✓':j<=S.upto?'✗':'·'),miss(r).length||'✓',esc(r.prep),esc(r.by)]),['','','',...MO.map(()=>'c'),'c','',''])+`<h3>By person who prepared</h3>`+pt(['Name','Units','Up to date','Months outstanding'],grpT(R,'prep').map(([g,v])=>[esc(g),v.n,v.ok,v.mm]),['','n','n','n'])+`<h3>By unit category</h3>`+pt(['Category','Units','Up to date','Months outstanding'],grpT(R,'ucat').map(([g,v])=>[esc(g),v.n,v.ok,v.mm]),['','n','n','n'])}}
+ if(t=='py'){const L=pyRows(),pend=L.filter(r=>!r.st&&r.bill=='p');let n=0;return{ls:1,h:ks([['Total paid',rs+inr(sum(L))],['TDS',rs+inr(sum(L,r=>+r.tds||0))],['Pending bills',rs+inr(sum(pend))+' ('+pend.length+')'],['Entries',L.length]])+pt(['#','Date','Cheque','Payee','Mode','Amount','TDS','Remarks','Bill','Sheet'],L.map(r=>[++n,dm(r.date),pc6(r.chq),r.st=='c'?'CANCELLED':esc(r.payee),esc(r.mode),r.st=='c'?'':(r.st=='r'?'(returned) ':'')+inr(r.amt),r.tds?inr(r.tds):'',esc(r.rem||''),esc(billTxt(r)),esc(r.sh)]),['','','','','','n','n','','',''])+`<div class="tl">Total: ${rs}${inr(sum(L))} · TDS ${rs}${inr(sum(L,r=>+r.tds||0))}</div>`}}
+ if(t=='bl'){const P=blRows();return{ls:0,h:ks([['Bills pending',rs+inr(sum(P))],['Payments',P.length]])+`<h3>Pending by age</h3>`+pt(['Age','Amount','Payments'],bk.map(([l,a,b])=>{const X=P.filter(r=>age(r.date)>=a&&age(r.date)<=b);return[l,inr(sum(X)),X.length]}),['','n','n'])+`<h3>Pending bills (oldest first)</h3>`+pt(['Date','Cheque','Payee','Amount','Age (days)','Sheet','Remarks'],P.map(r=>[dm(r.date),pc6(r.chq),esc(r.payee),inr(r.amt),age(r.date),esc(r.sh),esc(r.rem||'')]),['','','','n','n','',''])}}
+ if(t=='pe'){const{G,C,nm}=peData();return{ls:0,h:`<h3>By category</h3>`+pt(['Category','Payments','Amount'],C.map(([k,v])=>[esc(k),v.n,inr(v.a)]),['','n','n'])+`<h3>By payee (${G.length})</h3>`+pt(['Payee','Payments','Amount'],G.map(([k,v])=>[esc(nm[k]||k),v.n,inr(v.a)]),['','n','n'])}}
+ if(t=='ck'){return{ls:0,h:ckData().map(({a,R,U,last,ta,warn})=>`<h3>${esc(a.sh)} · A/c …${esc(String(a.no).slice(-4))}${warn?' — APPLY FOR NEW CHEQUES':''}</h3><div class="pm">Last cheque used: ${last?pc6(last):'—'}</div>`+(R.length?pt(['Range','Total','Used','Left'],R.map(r=>{const u=U.filter(x=>x>=r.f&&x<=r.t).length,n=r.t-r.f+1;return[pc6(r.f)+' – '+pc6(r.t),n,u,n-u]}),['','n','n','n']):'')).join('')||'No sender accounts set up.'}}
+ /* overview */
+ let h='';if(t=='rov'&&TR){const R=trAll(),st=trStats(R),worst=R.map((r,i)=>[r,st.ms[i]]).filter(x=>x[1].length).sort((a,b)=>b[1].length-a[1].length).slice(0,15);h+=`<h3>Account receiving · ${esc(S.fy)} · up to ${MO[S.upto]}</h3>`+ks([['Units',R.length],['Up to date',st.clear],['With missing months',st.pending],['Accounts received',st.pct+'%']])+pt(['Month',...MO],[['Units submitted',...st.monthly]],['','c','c','c','c','c','c','c','c','c','c','c','c'])+`<h3>Most months outstanding</h3>`+pt(['Unit','Prepared by','Months missing'],worst.map(([r,m])=>[esc(r.unit),esc(r.prep),m.join(', ')]))}
+ if(t=='pov'&&PD){const L=prow(),all=prow(true,false),pend=all.filter(r=>r.bill=='p'),bs=shs().map(k=>[k,bal(k)]).filter(x=>x[1]);h+=`<h3>Payments</h3>`+ks([['Payments in period',rs+inr(sum(L))+' ('+L.length+')'],['Pending bills',rs+inr(sum(pend))+' ('+pend.length+')'],['TDS',rs+inr(sum(L,r=>+r.tds||0))]])+(bs.length?pt(['Sheet','Available balance','Balance set on'],bs.map(([k,b])=>[esc(k),(b.v<0?'-':'')+inr(Math.abs(b.v)),dm(b.d)]),['','n','']):'')+`<h3>By sheet</h3>`+pt(['Sheet','Payments','Amount'],grp(L,r=>r.sh).map(([k,v])=>[esc(k),v.n,inr(v.a)]),['','n','n'])+`<h3>By payment mode</h3>`+pt(['Mode','Payments','Amount'],grp(L,r=>r.mode).map(([k,v])=>[esc(k),v.n,inr(v.a)]),['','n','n']);const CA=cal();if(CA.length)h+=`<h3>Apply for new cheques</h3>`+pt(['Sheet','Leaves left'],CA.map(([a,n])=>[esc(a.sh),n]),['','n'])}
+ return{ls:0,h}}
+function doPrint(){if(!ready())return;const b=pbody(),f=fdesc();
+ const html=PCSS+`<div class="pr ${b.ls?'ls':''}"><h1>Gokhla Franciscan Society</h1><h2>${esc(TITLES[S.tab])}</h2><div class="pm">Printed ${esc(new Date().toLocaleString('en-IN'))}${f.length?' · '+esc(f.join(' · ')):''}</div>${b.h}</div>`;
+ const po=$('#po');po.innerHTML=html;const done=()=>{po.innerHTML='';window.removeEventListener('afterprint',done)};window.addEventListener('afterprint',done);setTimeout(()=>window.print(),60)}
+$('#pr').onclick=()=>{S.pm='';doPrint()};
+/* ---------- start ---------- */
+try{const sv=JSON.parse(localStorage.getItem(NK)||'{}');if(MODS[sv.mod]){S.mod=sv.mod;S.tab=DEF[sv.mod]}}catch(e){}
+buildNav();
+const ct=loadCache();if(ct){loadedAt=ct;refreshUI()}else rbar();
+load(false);setInterval(()=>{if(!document.hidden&&Date.now()-loadedAt>90000)load(false)},30000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now()-loadedAt>60000)load(false)});
+</script></body></html>
