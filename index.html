@@ -90,13 +90,14 @@ async function loadCloud(){
  if(lp.length){const bf=lp[lp.length-1],o=await getJSON(bf.name),sv=(o.saved?Date.parse(o.saved):bf.modified)-120000;PD=mkPD(o);PTOMB.led={};PTOMB.pay={};
   const ch=lq.filter(f=>f.modified>=sv).slice(-60),os=(await pool(ch,5,f=>getJSON(f.name).catch(()=>null))).filter(x=>x&&x.kind==='chg').sort((a,b)=>(a.t||0)-(b.t||0));os.forEach(applyPd);msg.push('payments ✓')}
  if(!TR&&!PD)throw new Error('No backup files found in the sync folder yet. Open the Payment Desk / Tracker app once with sync connected, wait a minute, then refresh.');
- return msg.join(' · ')}
+ pdClean();return msg.join(' · ')}
+let hid=0;function pdClean(){hid=0;if(!PD||!PD.sheets||!PD.sheets.length)return;const ok=new Set(PD.sheets.map(s=>s.k)),n=PD.led.length;PD.led=PD.led.filter(r=>!r.sh||ok.has(r.sh));hid=n-PD.led.length}
 function ready(){return !!(TR||PD)}
 function init(){if(TR&&(!S.fy||!TR.years.includes(S.fy))){S.fy=TR.year;S.upto=TR.def}}
 function saveCache(){try{localStorage.setItem(CC,JSON.stringify({TR,PD,t:Date.now()}))}catch(e){try{localStorage.removeItem(CC)}catch(x){}}}
-function loadCache(){try{const c=JSON.parse(localStorage.getItem(CC)||'null');if(c&&(c.TR||c.PD)){TR=c.TR;PD=c.PD;return c.t}}catch(e){}return 0}
+function loadCache(){try{const c=JSON.parse(localStorage.getItem(CC)||'null');if(c&&(c.TR||c.PD)){TR=c.TR;PD=c.PD;pdClean();return c.t}}catch(e){}return 0}
 let loading=false,loadedAt=0,lastErr='';
-function head(){const n=a=>a?a.length:0;$('#asof').textContent=(loadedAt?'Updated '+new Date(loadedAt).toLocaleString([],{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):'Not loaded')+' · '+(TR?(TR.data[S.fy]||[]).length+' units':'no receiving data')+' · '+(PD?PD.led.length+' payments':'no payment data')+(lastErr?' · ⚠ '+lastErr:'')}
+function head(){const n=a=>a?a.length:0;$('#asof').textContent=(loadedAt?'Updated '+new Date(loadedAt).toLocaleString([],{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):'Not loaded')+' · '+(TR?(TR.data[S.fy]||[]).length+' units':'no receiving data')+' · '+(PD?PD.led.length+' payments'+(hid?' ('+hid+' from removed bank accounts hidden)':''):'no payment data')+(lastErr?' · ⚠ '+lastErr:'')}
 function refreshUI(){init();head();if(!document.activeElement||!$('#fb').contains(document.activeElement))rbar();rc_()}
 async function load(manual){if(loading)return;if(!cfg().url){if(!ready())openSet('Connect to your sync folder to see the reports.');return}
  loading=true;$('#rf').textContent='…';
